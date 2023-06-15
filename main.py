@@ -3,7 +3,6 @@ import mysql.connector
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from starlette.responses import FileResponse
-import webscrap
 
 
 class bd:
