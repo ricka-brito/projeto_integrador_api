@@ -22,6 +22,28 @@ class bd:
         return formatado
 
 
+    def read_excel(self):
+        self.cursor.execute("SELECT nome, preco FROM produtos")
+        dados = self.cursor.fetchall()
+        formatado = []
+        for i in dados:
+            if "VASO" in i[0].upper():
+                tipo = "vaso"
+            elif "ESTATUA" in i[0].upper():
+                tipo = "estatua"
+            elif "BALAUSTRE" in i[0].upper():
+                tipo = "balaustre"
+            elif "BANCO" in i[0].upper():
+                tipo =  "banco"
+            elif "COBOGO" in i[0].upper():
+                tipo =  "cobogo"
+            else:
+                tipo = "diversos"
+            formatado.append({"nome": i[0], "preco": i[1], "tipo": tipo})
+        return formatado
+
+
+
 app = FastAPI()
 
 app.add_middleware(
@@ -36,6 +58,12 @@ app.add_middleware(
 def teste():
     a = bd()
     return a.read()
+
+@app.get("/excel")
+def excel():
+    a = bd()
+    return a.read_excel()
+
 
 if __name__ ==  '__main__':
    import uvicorn
