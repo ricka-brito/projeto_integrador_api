@@ -2,6 +2,9 @@ from fastapi import FastAPI
 import mysql.connector
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from starlette.responses import FileResponse
+import webscrap
+
 
 class bd:
     def __init__(self):
@@ -34,6 +37,12 @@ app.add_middleware(
 def teste():
     a = bd()
     return a.read()
+
+@app.get("/excel")
+def exel():
+    webscrap.scrap().pesquisa()
+    headers = {'Content-Disposition': 'attachment; filename="output.xlsx"'}
+    return FileResponse("./output.xlsx", headers=headers)
 
 if __name__ ==  '__main__':
    import uvicorn
